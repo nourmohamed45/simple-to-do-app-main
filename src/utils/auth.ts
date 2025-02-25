@@ -24,6 +24,8 @@ export const signIn = async (email: string, password: string) => {
 };
 
 export const signOut = async () => {
+  // Clear user from localStorage before signing out
+  localStorage.removeItem("user");
   const { error } = await supabase.auth.signOut();
   if (error) throw error;
 };

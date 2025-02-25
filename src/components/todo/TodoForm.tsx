@@ -10,7 +10,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
 
 const sortStatus = [
   { label: "All", value: "All" },
@@ -28,7 +29,26 @@ type TodoFormProps = {
 };
 
 const TodoForm = ({ addTodo, isAddingTodo, setSortOrder, setPageSize, setStatusFilter, statusFilter }: TodoFormProps) => {
-  const user = JSON.parse(localStorage.getItem("user") ?? "{}");
+  // Get user from localStorage with error handling
+  const [user, setUser] = useState<{ id: string } | null>(null);
+  
+  useEffect(() => {
+    try {
+      const userJson = localStorage.getItem("user");
+      if (userJson) {
+        const userData = JSON.parse(userJson);
+        if (userData && userData.id) {
+          setUser(userData);
+        } else {
+          console.error("User data is missing ID");
+        }
+      } else {
+        console.error("User data not found in localStorage");
+      }
+    } catch (error) {
+      console.error("Error parsing user data:", error);
+    }
+  }, []);
 
   const [newTask, setNewTask] = useState({
     title: "",
@@ -36,6 +56,11 @@ const TodoForm = ({ addTodo, isAddingTodo, setSortOrder, setPageSize, setStatusF
   });
 
   const handleAddTask = () => {
+    if (!user || !user.id) {
+      toast.error("User not authenticated. Please log in again.");
+      return;
+    }
+    
     addTodo(user.id, newTask.title, newTask.description);
     setNewTask({ title: "", description: "" });
   };

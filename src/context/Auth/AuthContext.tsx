@@ -21,7 +21,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         toast.error("Error fetching session:");
       } else {
         setSession(data.session);
-        setUser(data.session?.user ?? null);
+        if (data.session?.user) {
+          setUser(data.session.user);
+          // Store user in localStorage for consistent access
+          localStorage.setItem("user", JSON.stringify(data.session.user));
+        } else {
+          setUser(null);
+        }
       }
       setIsLoading(false);
     };
@@ -32,7 +38,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_, session) => {
         setSession(session);
-        setUser(session?.user ?? null);
+        if (session?.user) {
+          setUser(session.user);
+          // Update localStorage when session changes
+          localStorage.setItem("user", JSON.stringify(session.user));
+        } else {
+          setUser(null);
+          // Clear user from localStorage on sign out
+          localStorage.removeItem("user");
+        }
       }
     );
 
