@@ -4,6 +4,7 @@
 This is a full-featured Todo application built with **React**, **TypeScript**, **Supabase** (for the backend), **Tanstack Query** (for data fetching and state management, and caching), and **Shadcn/UI** (for UI components). It allows users to create, update, delete, and manage their tasks with features like pagination, sorting by date, and filtering by status.
 
 ![Todo App Screenshot](./public/image.png)
+![Todo App Screenshot](./public/image-2.png)
 
 ## ✨ Features
 
