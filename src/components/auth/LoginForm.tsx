@@ -16,11 +16,6 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
-  // This line gets the URL path that the user was trying to access before being redirected to login
-  // Example: User tries to access /profile but isn't logged in
-  // They get sent to /login, but we save /profile as "from"
-  // If there's no saved path, we default to "/" (home page)
-
   useEffect(() => {
     if (user) {
       navigate("/dashboard", { replace: true });
@@ -32,7 +27,7 @@ const LoginForm = () => {
 
     try {
       await signIn(formData.email, formData.password);
-      const { user } = JSON.parse(localStorage.getItem("sb-hdslbdzsacunlgonoizo-auth-token") || "{}");
+      const { user } = JSON.parse(localStorage.getItem("sb-hdslbdzsacunlgonoizo-auth-token") ?? "{}");
       localStorage.setItem("user", JSON.stringify(user));
 
       toast.success("Login successful");

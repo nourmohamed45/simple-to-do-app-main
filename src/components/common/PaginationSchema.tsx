@@ -14,8 +14,8 @@ const PaginationSchema = ({ page, setPage, totalPages }: PaginationProps) => {
   // Function to generate pagination items with ellipsis
   const getPaginationItems = () => {
     const items = [];
-    // Adjust maxVisiblePages based on screen size (5 for desktop, 3 for mobile)
     const isMobile = window.innerWidth < 640; // Tailwind's 'sm' breakpoint
+    // Adjust maxVisiblePages based on screen size (5 for desktop, 3 for mobile)
     const maxVisiblePages = isMobile ? 3 : 5;
     const sidePages = Math.floor(maxVisiblePages / 2); // 1 for mobile, 2 for desktop
 
